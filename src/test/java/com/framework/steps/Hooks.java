@@ -37,4 +37,6 @@ public class Hooks {
 		extent.flush();
 		BaseClass.closeBrowser();
 	}
+	
+
 }
