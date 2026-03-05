@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import com.framework.base.BaseClass;
 
@@ -37,13 +38,14 @@ public class productPage {
 
 	public void validateProductTitle() {
 		BaseClass.waitForElement(producttitle);
-		producttitle.isDisplayed();
+		Assert.assertTrue(producttitle.isDisplayed());
 		System.out.println(producttitle.getText());
 	}
 
 	public void validateAddToCartButton() {
 		BaseClass.waitForElement(addToCartButton);
-		addToCartButton.isEnabled();
+		Assert.assertTrue(addToCartButton.isEnabled());
+
 	}
 
 }

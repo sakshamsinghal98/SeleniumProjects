@@ -80,7 +80,6 @@ public class BaseClass {
 	}
 
 	public static void switchToNewTab(WebDriver driver) {
-		String parent = driver.getWindowHandle();
 		Set<String> child = driver.getWindowHandles();
 		Iterator<String> it = child.iterator();
 
