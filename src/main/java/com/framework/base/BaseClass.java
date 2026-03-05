@@ -6,7 +6,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,4 +78,22 @@ public class BaseClass {
 			}
 		}
 	}
+
+	public static void switchToNewTab(WebDriver driver) {
+		String parent = driver.getWindowHandle();
+		Set<String> child = driver.getWindowHandles();
+		Iterator<String> it = child.iterator();
+
+		while (it.hasNext()) {
+
+			String window = it.next();
+
+			if (!window.equals(driver.getWindowHandle())) {
+				driver.switchTo().window(window);
+				break;
+			}
+
+		}
+	}
+
 }

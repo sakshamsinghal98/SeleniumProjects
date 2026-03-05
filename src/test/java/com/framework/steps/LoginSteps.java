@@ -1,23 +1,20 @@
 package com.framework.steps;
 
-import org.openqa.selenium.WebDriver;
-
-import com.framework.base.BaseClass;
-import com.framework.pages.HomePage;
-
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class LoginSteps {
-	WebDriver driver;
 
-	HomePage home = new HomePage(driver);
+	SharedContext context;
+
+	public LoginSteps(SharedContext context) {
+		this.context = context;
+	}
 
 	@Given("User launches the browser")
 	public void user_launches_the_browser() {
-		driver = BaseClass.driver;
-		home = new HomePage(driver);
+		// Hooks handles this
 	}
 
 	@When("User navigates to Amazon")
@@ -27,12 +24,11 @@ public class LoginSteps {
 
 	@Then("User searches for {string}")
 	public void user_searches_for(String product) {
-		home.searchProduct(product);
+		context.home.searchProduct(product);
 	}
 
 	@Then("User should see amazon logo")
 	public void user_should_see_amazon_logo() {
-		home.checkAmazonLogo();
+		context.home.checkAmazonLogo();
 	}
-
 }

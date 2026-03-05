@@ -8,35 +8,34 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
-import java.io.IOException;
-
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-
 public class Hooks {
 
 	ExtentReports extent = ExtentReportManager.getInstance();
 	ExtentTest test;
+	SharedContext context;
+
+	public Hooks(SharedContext context) {
+		this.context = context;
+	}
 
 	@Before
 	public void setUp(Scenario scenario) {
 		test = extent.createTest(scenario.getName());
 		BaseClass.launchBrowser();
+		context.initPages();
 	}
 
 	@After
-	public void tearDown(Scenario scenario) throws IOException {
+	public void tearDown(Scenario scenario) {
 		if (scenario.isFailed()) {
-			byte[] screenshot = ((TakesScreenshot) BaseClass.driver).getScreenshotAs(OutputType.BYTES);
+			byte[] screenshot = ((org.openqa.selenium.TakesScreenshot) BaseClass.driver)
+					.getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
 			test.fail("Test Failed: " + scenario.getName())
 					.addScreenCaptureFromBase64String(java.util.Base64.getEncoder().encodeToString(screenshot));
-			test.fail(scenario.getName());
 		} else {
 			test.pass("Test Passed: " + scenario.getName());
 		}
 		extent.flush();
 		BaseClass.closeBrowser();
 	}
-	
-
 }
