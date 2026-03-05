@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,15 +29,20 @@ public class BaseClass {
 		String browser = configReader.get("browser");
 
 		if (browser.equals("chrome")) {
+			ChromeOptions options = new ChromeOptions();
+			if (System.getenv("CI") != null) {
+				options.addArguments("--headless");
+				options.addArguments("--no-sandbox");
+				options.addArguments("--disable-dev-shm-usage");
+			}
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			driver = new ChromeDriver(options);
 		}
 
 		driver.get(configReader.get("baseURL"));
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		log.info("Browser launched successfully!");
-
 	}
 
 	public static void closeBrowser() {
